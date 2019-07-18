@@ -8,12 +8,8 @@ import {
     Text,
     View
 } from 'react-native';
-
 import { Connection, Exchange, Queue } from 'react-native-rabbitmq';
-import Toast from 'react-native-simple-toast';
-
-
-
+import PushNotification from 'react-native-push-notification';
 
 
 const instructions = Platform.select({
@@ -40,6 +36,9 @@ export default class App extends Component<Props> {
         super(props)
 
     }
+    componentDidMount(): void {
+
+    }
 
     componentWillMount() {
 
@@ -53,6 +52,7 @@ export default class App extends Component<Props> {
 
         connection.on('connected', (event) => {
             console.log('connected')
+
             // Create new Queue in RabbitMQ
              queue = new Queue(connection, {
                 name: '123',
@@ -64,6 +64,7 @@ export default class App extends Component<Props> {
                     'x-priority': 1
                 }
             });
+
             // Create new Exchange in RabbitMQ
              exchange = new Exchange(connection, {
                 name: 'exchange1',
@@ -85,12 +86,11 @@ export default class App extends Component<Props> {
 
             // Listening on queue
             queue.on('message', (data) => {
+                console.log(data);
                 console.log('%c message + \n '+JSON.stringify(data),'background:pink;font-weight:1000');
-
-                // show toast
-                //if (data[0].message=="hallelujah") {
-                 //   Toast.show(data[0].message);
-                //}
+                PushNotification.localNotification({
+                    message: data.message
+                });
 
 
             });

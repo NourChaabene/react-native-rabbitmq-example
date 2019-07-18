@@ -30,7 +30,7 @@ connection.on('ready', function () {
   }, function (exchange) {
    
 
-    exchange.publish('123', 'hello from node msg nour 1222' , { expiration: '1000' }, (err, msg) => {
+    exchange.publish('123', 'hii nouuur' , {}, (err, msg) => {
       console.log(err, msg)
       
     })
